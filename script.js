@@ -16,16 +16,14 @@ function clearSearchResults() {
   });
 }
 
-let sendRquest = () => {
+let sendRequest = () => {
   let inputValue = input.value.trim();
-  console.log(inputValue);
 
   if (inputValue !== "") {
     let url = `https://api.github.com/search/repositories?q=${inputValue}`;
     fetch(url)
       .then((response) => response.json())
       .then((data) => {
-        console.log(data.items);
         clearSearchResults();
         addingNewSearchResult(data.items);
       });
@@ -34,9 +32,9 @@ let sendRquest = () => {
   }
 };
 
-const sendRquestDebounce = debounce(sendRquest, 400);
+const sendRequestDebounce = debounce(sendRequest, 400);
 
-input.addEventListener("input", sendRquestDebounce);
+input.addEventListener("input", sendRequestDebounce);
 
 function addingNewSearchResult(items) {
   for (let item of items) {
@@ -54,29 +52,38 @@ function addingNewSearchResult(items) {
   }
 }
 
+const createEl = (elTag, elClass, domName) => {
+  let el = document.createElement(elTag);
+  el.classList.add(...elClass);
+  domName.append(el);
+  return el;
+};
+
 function addSelectedList(item) {
-  const newSelectItem = document.createElement("div");
-  newSelectItem.innerHTML = `
-  <div class="selected__item">
-    <div class="selected__item-inner">
-        <div class="selected__text selected__text--name">
-            Name: <span>${item.name}</span>
-        </div>
-        <div class="selected__text selected__text--owner">
-            Owner: <span>${item.owner.login}</span>
-        </div>
-        <div class="selected__text selected__text--stars">
-            Stars: <span>${item.stargazers_count}</span>
-        </div>
-    </div>
-    <div class="selected__delete">
-        <img src="img/Vector 7.svg">
-        <img src="img/Vector 8.svg">
-    </div>
-  </div>`;
-  document.querySelector(".selected").append(newSelectItem);
- 
-  newSelectItem.addEventListener("click", deleteSelectedList);
+
+  const selected = document.querySelector(".selected");
+  const selectedItem = createEl("div", ["selected__item"], selected);
+  
+  const selectedItemInner = createEl("div",["selected__item-inner"],selectedItem);
+  const selectedItemName = createEl("div",["selected__text", "selected__text--name"],selectedItemInner);
+  const selectedItemNameText = createEl("div", [], selectedItemName);
+  selectedItemNameText.textContent = `Name: ${item.name}`;
+  
+  const selectedItemOwner = createEl("div",["selected__text", "selected__text--owner"],selectedItemInner);
+  const selectedItemOwnerText = createEl("div", [], selectedItemName);
+  selectedItemOwnerText.textContent = `Owner: ${item.owner.login}`;
+  
+  const selectedItemStars = createEl("div",["selected__text", "selected__text--stars"],selectedItemInner);
+  const selectedItemStarsText = createEl("div", [], selectedItemName);
+  selectedItemStarsText.textContent = `Stars: ${item.stargazers_count}`;
+  
+  const selectedDelete = createEl("div", ["selected__delete"], selectedItem);
+  const selectedDeleteImg1 = createEl("img", [], selectedDelete);
+  const selectedDeleteImg2 = createEl("img", [], selectedDelete);
+  selectedDeleteImg1.src = "img/Vector 7.svg";
+  selectedDeleteImg2.src = "img/Vector 8.svg";
+
+  selectedItem.addEventListener("click", deleteSelectedList);
 
   input.value = "";
 }

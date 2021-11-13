@@ -8,7 +8,7 @@ ul {
 .container {
   max-width: 661px;
   margin: 0 auto;
-  background-color: #c4c4c4;
+  background-color: #394658;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -20,6 +20,7 @@ ul {
   flex-direction: column;
 }
 .searching {
+  border-radius: 15px;
   box-sizing: border-box;
   width: 100%;
   height: 61px;
@@ -30,11 +31,13 @@ ul {
 }
 
 .results {
-  width: 100%;
+  height:200px;
+  align-self: center;
+  width: 90%;
   list-style-type: none;
 }
 .results__item {
-  background-color: #e3e3e3;
+  background-color: #3b3c6d;
   border: 2px solid #000000;
   box-sizing: border-box;
   font-size: 30px;
@@ -47,14 +50,24 @@ ul {
   line-height: 40px;
 }
 .selected {
+  background-color: black;
+  border: solid 2px black;
+  border-radius: 15px;
   width: 100%;
   margin-top: 45px;
+  height: 300px;
+  overflow-y: scroll;
 }
 .selected__item {
+  border-radius: 13px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #e27beb;
+  background: linear-gradient(
+    90deg,
+    rgba(49, 50, 162, 1) 0%,
+    rgba(148, 68, 142, 1) 100%
+  );
   border: 1px solid #000000;
   box-sizing: border-box;
   padding: 8px 16px;
